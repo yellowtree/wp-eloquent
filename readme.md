@@ -1,7 +1,10 @@
 # Eloquent Wrapper for WordPress
 
-This is a library package to use Laravel's [Eloquent ORM](http://laravel.com/docs/5.0/eloquent) with WordPress.
+This is only a test fork from https://github.com/tareq1988/wp-eloquent with
+"illuminate/database": "^8.x-dev",
+"illuminate/pagination": "^8.x-dev"
 
+This is a library package to use Laravel's [Eloquent ORM](http://laravel.com/docs/5.0/eloquent) with WordPress.
 
 ## Package Installation
 
@@ -10,7 +13,7 @@ To install this package, edit your `composer.json` file:
 ```js
 {
     "require": {
-        "tareq1988/wp-eloquent": "dev-master"
+        "media-store-net/wp-eloquent": "dev-master"
     }
 }
 ```
@@ -40,6 +43,7 @@ var_dump( DB::table('users')->where('user_login', 'john')->first() );
 ```
 
 ## Creating Models For Custom Tables
+
 You can use custom tables of the WordPress databases to create models:
 
 ```php
@@ -97,7 +101,7 @@ class CustomTableModel extends Model {
         // In this example, it's set, but this is better in an abstract class
         if ( isset( $this->table ) ){
             $prefix =  $this->getConnection()->db->prefix;
-            
+
             return $prefix . $this->table;
         }
 
@@ -119,11 +123,10 @@ foreach ($users as $user) {
 
 Here `users` is the table name **without prefix**. The prefix will be applied automatically.
 
-
 ### Other Examples
 
- - [Queries](http://laravel.com/docs/5.0/queries)
- - [Eloquent ORM](http://laravel.com/docs/5.0/eloquent)
+- [Queries](http://laravel.com/docs/5.0/queries)
+- [Eloquent ORM](http://laravel.com/docs/5.0/eloquent)
 
 ## Writing a Model
 
@@ -137,6 +140,7 @@ class Employee extends Model {
 var_dump( Employee::all()->toArray() ); // gets all employees
 var_dump( Employee::find(1) ); // find employee with ID 1
 ```
+
 The class name `Employee` will be translated into `PREFIX_employees` table to run queries. But as usual, you can override the table name.
 
 ### In-built Models for WordPress
@@ -147,7 +151,6 @@ The class name `Employee` will be translated into `PREFIX_employees` table to ru
 - User
 - User Meta
 
-
 ```php
 use WeDevs\ORM\WP\Post as Post;
 
@@ -155,6 +158,7 @@ var_dump( Post::all() ); //returns only posts with WordPress post_type "post"
 ```
 
 #### Filter `Post` by `post_status` and `post_type`
+
 ```php
 use WeDevs\ORM\WP\Post as Post;
 var_dump(Post::type('page')->get()->toArray()); // get pages
@@ -164,15 +168,16 @@ var_dump(Post::type('page')->status('publish')->get()->toArray()); // get pages 
 
 ## How it Works
 
- - Eloquent is mainly used here as the query builder
- - [WPDB](http://codex.wordpress.org/Class_Reference/wpdb) is used to run queries built by Eloquent
- - Hence, we have the benfit to use plugins like `debug-bar` or `query-monitor` to get SQL query reporting.
- - It doesn't create any extra MySQL connection
-
+- Eloquent is mainly used here as the query builder
+- [WPDB](http://codex.wordpress.org/Class_Reference/wpdb) is used to run queries built by Eloquent
+- Hence, we have the benfit to use plugins like `debug-bar` or `query-monitor` to get SQL query reporting.
+- It doesn't create any extra MySQL connection
 
 ## Minimum Requirement
- - PHP 5.6.4+
- - WordPress 4.0+
+
+- PHP 5.6.4+
+- WordPress 4.0+
 
 ## Author
+
 [Tareq Hasan](https://tareq.co)
