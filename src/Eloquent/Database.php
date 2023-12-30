@@ -1,4 +1,5 @@
 <?php
+
 namespace WeDevs\ORM\Eloquent;
 
 use Illuminate\Database\ConnectionInterface;
@@ -56,24 +57,17 @@ class Database implements ConnectionInterface
         $this->db = $wpdb;
     }
 
-    /**
-     * Get the database connection name.
-     *
-     * @return string|null
-     */
-    public function getName()
-    {
-        return $this->getConfig('name');
-    }
 
     /**
      * Begin a fluent query against a database table.
      *
-     * @param  string $table
+     *
+     * @param \Closure|\Illuminate\Database\Query\Builder|string $table
+     * @param string|null $as *
      *
      * @return \Illuminate\Database\Query\Builder
      */
-    public function table($table)
+    public function table($table, $as = null)
     {
         $processor = $this->getPostProcessor();
 
@@ -96,17 +90,19 @@ class Database implements ConnectionInterface
         return new Expression($value);
     }
 
-	/**
-	 * Get a new query builder instance.
-	 *
-	 * @return \Illuminate\Database\Query\Builder
-	 */
-	public function query()
-	{
-		return new Builder(
-			$this, $this->getQueryGrammar(), $this->getPostProcessor()
-		);
-	}
+    /**
+     * Get a new query builder instance.
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function query()
+    {
+        return new Builder(
+            $this,
+            $this->getQueryGrammar(),
+            $this->getPostProcessor()
+        );
+    }
 
     /**
      * Run a select statement and return a single result.
@@ -163,7 +159,6 @@ class Database implements ConnectionInterface
      */
     public function cursor($query, $bindings = [], $useReadPdo = true)
     {
-
     }
 
     /**
@@ -355,7 +350,7 @@ class Database implements ConnectionInterface
             $data = $callback();
             $this->commit();
             return $data;
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -469,5 +464,15 @@ class Database implements ConnectionInterface
     public function getConfig($option = null)
     {
         return Arr::get($this->config, $option);
+    }
+
+    /**
+     * Get the database connection name.
+     *
+     * @return string|null
+     */
+    public function getDatabaseName()
+    {
+        return $this->getConfig('name');
     }
 }
