@@ -475,4 +475,14 @@ class Database implements ConnectionInterface
     {
         return $this->getConfig('name');
     }
+
+    /**
+     * Get the database connection name.
+     *
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->getDatabaseName();
+    }
 }
