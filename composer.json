@@ -10,8 +10,8 @@
   ],
   "homepage": "https://github.com/media-store-net/wp-eloquent",
   "require": {
-    "illuminate/database": "^8.x",
-    "illuminate/pagination": "^8.x"
+    "illuminate/database": "^8.0",
+    "illuminate/pagination": "^8.0"
   },
   "license": "GPL-2.0-or-later",
   "authors": [
