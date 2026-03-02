@@ -488,7 +488,23 @@ class Database implements ConnectionInterface
         return $this->getDatabaseName();
     }
 
+    /**
+     * Run a select statement and return the first column of the first row.
+     *
+     * @param  string  $query
+     * @param  array  $bindings
+     * @param  bool  $useReadPdo
+     * @return mixed
+     *
+     * @throws \Illuminate\Database\MultipleColumnsSelectedException
+     */
     public function scalar($query, $bindings = [], $useReadPdo = true) {
-        // TODO
+        $result = $this->selectOne($query, $bindings, $useReadPdo);
+
+        if (is_object($result)) {
+            $result = get_object_vars($result);
+        }
+
+        return is_array($result) ? reset($result) : $result;
     }
 }
