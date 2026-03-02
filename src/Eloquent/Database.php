@@ -3,15 +3,16 @@
 namespace WeDevs\ORM\Eloquent;
 
 use Illuminate\Database\ConnectionInterface;
-use Illuminate\Database\Query\Grammars\Grammar;
 use Illuminate\Database\Query\Processors\Processor;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Arr;
+use WeDevs\ORM\Eloquent\Facades\DB;
 
 class Database implements ConnectionInterface
 {
 
+    /** @var \wpdb */
     public $db;
 
     /**
@@ -430,7 +431,8 @@ class Database implements ConnectionInterface
 
     public function getQueryGrammar()
     {
-        return new Grammar();
+        return DB::connection($this->getDatabaseName())
+            ->getQueryGrammar();
     }
 
     /**
@@ -484,5 +486,9 @@ class Database implements ConnectionInterface
     public function getName()
     {
         return $this->getDatabaseName();
+    }
+
+    public function scalar($query, $bindings = [], $useReadPdo = true) {
+        // TODO
     }
 }
